@@ -5,6 +5,10 @@ class IntList {
     public:
         IntList();
         int size() const;
+        int pop_front();
+        int pop_back();
+        int remove(int position);
+        int get(int position);
         bool is_empty() const;
         void print_list() const;
         void push_front(int value);
@@ -20,4 +24,9 @@ class IntList {
         void insert_new_head(Node* node_to_insert);
         void insert_new_tail(Node* node_to_insert);
         void insert_between_nodes(Node* previous_node, Node* next_node, Node* node_to_insert);
+        int remove_node(Node* node_to_remove);
+        int remove_only_node();
+        int remove_head();
+        int remove_tail();
+        int remove_node();
 };
