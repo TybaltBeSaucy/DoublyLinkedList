@@ -1,10 +1,11 @@
 #include <iostream>
-#include "IntList.cpp"
+#include "DoublyLinkedList.h"
 
 using namespace std;
 
+
 int main() {
-    IntList my_list_of_units;
+    DoublyLinkedList<int> my_list_of_units;
 
     cout << "After creation, my_list_of_ints has size: ";
     cout << my_list_of_units.size() << endl;
@@ -32,8 +33,8 @@ int main() {
     my_list_of_units.print_list();
 
     cout << "I'm inserting some values into the beginning and middle of the list";
-    my_list_of_units.insert(1, 60);
-    my_list_of_units.insert(7, 0);
+    my_list_of_units.insert(0, 60);
+    my_list_of_units.insert(6, 0);
 
     cout << "I expect: 60, 50, 40, 30, 20, 10, 0, 60, 70" << endl;
     my_list_of_units.print_list();
@@ -50,5 +51,11 @@ int main() {
     my_list_of_units.remove(1);
 
     cout << "I expect: 40, 30, 20, 10, 0, 60" << endl;
+    my_list_of_units.print_list();
+
+    cout << "I am setting a value" << endl;
+    my_list_of_units.set(4, 10);
+
+    cout << "I expect: 40, 30, 20, 10, 10, 60" << endl;
     my_list_of_units.print_list();
 }

@@ -9,6 +9,7 @@ class IntList {
         int pop_back();
         int remove(int position);
         int get(int position);
+        int set(int position, int value);
         bool is_empty() const;
         void print_list() const;
         void push_front(int value);

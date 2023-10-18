@@ -1,27 +1,75 @@
-#include <iostream>
+#pragma once
 #include <stdexcept>
-#include "IntList.h"
+#include <iostream>
 
 using namespace std;
 
-IntList::IntList()
+template <typename T>
+class DoublyLinkedList
+{
+private:
+    class Node
+    {
+    public:
+        T data;
+        Node *next;
+        Node *previous;
+
+        Node(T data) : data(data), next(nullptr), previous(nullptr) {}
+    };
+    void insertNode(Node *node, T value);
+    void removeNode(Node *node);
+    T m_size;
+    Node *m_head;
+    Node *m_tail;
+    void insert_very_first_node(Node *node_to_insert);
+    void insert_new_head(Node *node_to_insert);
+    void insert_new_tail(Node *node_to_insert);
+    void insert_between_nodes(Node *previous_node, Node *next_node, Node *node_to_insert);
+    int remove_node(Node *node_to_remove);
+    int remove_only_node();
+    int remove_head();
+    int remove_tail();
+    int remove_node();
+
+public:
+    DoublyLinkedList();
+    int size() const;
+    int pop_front();
+    int pop_back();
+    int remove(int position);
+    int get(int position);
+    int set(int position, T value);
+    bool is_empty() const;
+    void print_list() const;
+    void push_front(T value);
+    void push_back(T value);
+    void prepend(T value);
+    void append(T value);
+    void insert(int position, T value);
+};
+
+template <typename T>
+DoublyLinkedList<T>::DoublyLinkedList()
 {
     m_size = 0;
     m_head = nullptr;
     m_tail = nullptr;
 }
 
-int IntList::size() const
+template <typename T>
+int DoublyLinkedList<T>::size() const
 {
     return m_size;
 }
 
-bool IntList::is_empty() const
+template <typename T>
+bool DoublyLinkedList<T>::is_empty() const
 {
     return m_size == 0;
 }
-
-void IntList::print_list() const
+template <typename T>
+void DoublyLinkedList<T>::print_list() const
 {
     if (is_empty())
     {
@@ -40,7 +88,8 @@ void IntList::print_list() const
     }
 }
 
-void IntList::insert_very_first_node(Node *node_to_insert)
+template <typename T>
+void DoublyLinkedList<T>::insert_very_first_node(Node *node_to_insert)
 {
     m_head = node_to_insert;
     m_tail = node_to_insert;
@@ -49,7 +98,8 @@ void IntList::insert_very_first_node(Node *node_to_insert)
     m_size++;
 }
 
-void IntList::insert_new_head(Node *node_to_insert)
+template <typename T>
+void DoublyLinkedList<T>::insert_new_head(Node *node_to_insert)
 {
     node_to_insert->previous = nullptr;
     node_to_insert->next = m_head;
@@ -58,7 +108,8 @@ void IntList::insert_new_head(Node *node_to_insert)
     m_size++;
 }
 
-void IntList::insert_new_tail(Node *node_to_insert)
+template <typename T>
+void DoublyLinkedList<T>::insert_new_tail(Node *node_to_insert)
 {
     node_to_insert->next = nullptr;
     node_to_insert->previous = m_tail;
@@ -67,7 +118,8 @@ void IntList::insert_new_tail(Node *node_to_insert)
     m_size++;
 }
 
-void IntList::insert_between_nodes(Node *previous_node, Node *next_node, Node *node_to_insert)
+template <typename T>
+void DoublyLinkedList<T>::insert_between_nodes(Node *previous_node, Node *next_node, Node *node_to_insert)
 {
     if (previous_node == nullptr)
     {
@@ -92,17 +144,20 @@ void IntList::insert_between_nodes(Node *previous_node, Node *next_node, Node *n
     m_size++;
 }
 
-void IntList::push_front(int value)
+template <typename T>
+void DoublyLinkedList<T>::push_front(T value)
 {
     prepend(value);
 }
 
-void IntList::push_back(int value)
+template <typename T>
+void DoublyLinkedList<T>::push_back(T value)
 {
     append(value);
 }
 
-void IntList::prepend(int value)
+template <typename T>
+void DoublyLinkedList<T>::prepend(T value)
 {
     Node *node_to_insert = new Node(value);
 
@@ -116,7 +171,8 @@ void IntList::prepend(int value)
     }
 }
 
-void IntList::append(int value)
+template <typename T>
+void DoublyLinkedList<T>::append(T value)
 {
     Node *node_to_insert = new Node(value);
 
@@ -130,7 +186,8 @@ void IntList::append(int value)
     }
 }
 
-void IntList::insert(int position, int value)
+template <typename T>
+void DoublyLinkedList<T>::insert(int position, T value)
 {
     Node *node_to_insert = new Node(value);
 
@@ -160,41 +217,45 @@ void IntList::insert(int position, int value)
     }
 }
 
-int IntList::remove_only_node()
+template <typename T>
+int DoublyLinkedList<T>::remove_only_node()
 {
     Node *node_to_free = m_head;
-    int value_to_return = node_to_free->data;
+    T value_to_return = node_to_free->data;
     m_head = nullptr;
     m_tail = nullptr;
     m_size = 0;
     delete node_to_free;
     return value_to_return;
 }
-int IntList::remove_head()
+template <typename T>
+int DoublyLinkedList<T>::remove_head()
 {
     Node *node_to_free = m_head;
-    int value_to_return = node_to_free->data;
+    T value_to_return = node_to_free->data;
     m_head = m_head->next;
     m_head->previous = nullptr;
     m_size--;
     delete node_to_free;
     return value_to_return;
 }
-int IntList::remove_tail()
+template <typename T>
+int DoublyLinkedList<T>::remove_tail()
 {
     Node *node_to_free = m_tail;
-    int value_to_return = node_to_free->data;
+    T value_to_return = node_to_free->data;
     m_tail = m_tail->previous;
     m_tail->next = nullptr;
     m_size--;
     delete node_to_free;
     return value_to_return;
 }
-int IntList::pop_front()
+template <typename T>
+int DoublyLinkedList<T>::pop_front()
 {
     if (is_empty())
     {
-        throw out_of_range("pop_front on Empty List");
+        cout << "pop_front on Empty List" << endl;
     }
     else if (m_size == 1)
     {
@@ -205,11 +266,12 @@ int IntList::pop_front()
         return remove_head();
     }
 }
-int IntList::pop_back()
+template <typename T>
+int DoublyLinkedList<T>::pop_back()
 {
     if (is_empty())
     {
-        throw out_of_range("pop_back on Empty List");
+        cout << "pop_front on Empty List" << endl;
     }
     else if (m_size == 1)
     {
@@ -220,11 +282,12 @@ int IntList::pop_back()
         return remove_tail();
     }
 }
-int IntList::get(int position)
+template <typename T>
+int DoublyLinkedList<T>::get(int position)
 {
     if ((position < 0) || (position > m_size - 1))
     {
-        throw out_of_range("getting out of range value");
+        cout << "pop_front on Empty List" << endl;
     }
     else
     {
@@ -240,7 +303,8 @@ int IntList::get(int position)
     }
 }
 
-int IntList::set(int position, int value)
+template <typename T>
+int DoublyLinkedList<T>::set(int position, T value)
 {
     // if greater than or less than list size, throw exception
     if (position <= 0 || position >= size())
@@ -252,13 +316,13 @@ int IntList::set(int position, int value)
         Node *temp = m_head;
         int index = 0;
 
-        while(temp != nullptr)
+        while (temp != nullptr)
         {
             if (index == position)
             {
-                int oldValue = temp->data;
+                int old_value = temp->data;
                 temp->data = value;
-                return oldValue;
+                return old_value;
             }
 
             temp->previous = temp;
@@ -267,7 +331,8 @@ int IntList::set(int position, int value)
         }
     }
 }
-int IntList::remove_node(Node *node_to_remove)
+template <typename T>
+int DoublyLinkedList<T>::remove_node(Node *node_to_remove)
 {
     // check if the node to remove is the head
     if (node_to_remove == m_head)
@@ -280,14 +345,15 @@ int IntList::remove_node(Node *node_to_remove)
         return remove_tail();
     }
     // otherwise, the node to remove is in the middle of the list
-    int value_to_return = node_to_remove->data;
+    T value_to_return = node_to_remove->data;
     node_to_remove->previous->next = node_to_remove->next;
     node_to_remove->next->previous = node_to_remove->previous;
     m_size--;
     delete node_to_remove;
     return value_to_return;
 }
-int IntList::remove(int position)
+template <typename T>
+int DoublyLinkedList<T>::remove(int position)
 {
     // if position < 0, throw exception
     if (position < 0)
@@ -321,4 +387,4 @@ int IntList::remove(int position)
         }
         return remove_node(node_to_remove);
     }
-}
+};

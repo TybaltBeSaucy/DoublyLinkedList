@@ -3,9 +3,9 @@
 class Node {
     public:
         Node(int val = 0):
-            value{val}, next{nullptr}, previous{nullptr} {}
+            data{val}, next{nullptr}, previous{nullptr} {}
 
-        int value;
+        int data;
         Node* next;
         Node* previous;
 };
